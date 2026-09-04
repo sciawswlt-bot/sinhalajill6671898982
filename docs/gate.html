@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock Link — Sinhala Jil</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- ADSTERRA — Popunder (one per page) -->
+<script src="https://evidentbummerhike.com/d5/81/7d/d5817d00800391d49d08acf39c304270.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body>
+  <div class="ad-banner ads ad-placement adsbox" style="position:absolute;left:-9999px;width:1px;height:1px;"></div>
+
+  <div class="topbar">
+    <div class="logo-mark">SJ</div>
+    <div class="logo-text">SINHALA JIL</div>
+  </div>
+
+  <main class="wrap">
+    <h1 class="hero-title">Unlock Now</h1>
+    <p class="hero-sub">Complete every step below to reveal your link.</p>
+    <div class="security-badge">🛡 3 Layers Security</div>
+
+    <div id="blockedNotice" class="warning" style="display:none;"></div>
+
+    <div id="stepOverview">
+      <div class="step-row" id="stepRow0"><div class="step-num">1</div><div class="step-title">Step 1</div><div class="step-lock">🔒 LOCKED</div></div>
+      <div class="step-row locked" id="stepRow1"><div class="step-num">2</div><div class="step-title">Step 2</div><div class="step-lock">🔒 LOCKED</div></div>
+      <div class="step-row locked" id="stepRow2"><div class="step-num">3</div><div class="step-title">Step 3</div><div class="step-lock">🔒 LOCKED</div></div>
+    </div>
+
+    <div id="startCard" class="card">
+      <p style="margin-top:0;">Tap start when you're ready. This opens a sponsor ad and begins the timer at the same time.</p>
+      <button class="btn" id="startBtn">Start</button>
+    </div>
+
+    <!-- Shown instead of the countdown if the user leaves the tab / goes
+         back mid-step. Clicking this re-opens the ad and restarts THIS
+         step's timer from 10 — it does not go back to step 1. -->
+    <div id="restartCard" class="card" style="display:none;">
+      <p style="margin-top:0;">You left before the timer finished, so this step reset. Tap below to reopen the ad and try this step again.</p>
+      <button class="btn" id="restartBtn">Start This Step Again</button>
+    </div>
+
+    <div id="flow" class="card" style="display:none;">
+      <div class="step-label"><span id="stepLabel">Step 1 of 3</span><span id="waitLabel">Hold</span></div>
+      <p id="introText" style="margin:0 0 14px;font-size:13px;">Watch the ad for 10 seconds — don't switch tabs or go back, or this step restarts.</p>
+      <div class="countdown" id="countdown">10</div>
+
+      <div class="ad-slot-live" id="adSlotStep1" style="display:none;margin-bottom:18px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'c749d933ad79784b0353eb15f0ceeeb0','format':'iframe','height':250,'width':300,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/c749d933ad79784b0353eb15f0ceeeb0/invoke.js"></script>
+      </div>
+
+      <div class="ad-slot-live" id="adSlotStep2" style="display:none;margin-bottom:18px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'ad2006d8c6a544413e3d1f49c536610f','format':'iframe','height':300,'width':160,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/ad2006d8c6a544413e3d1f49c536610f/invoke.js"></script>
+      </div>
+
+      <div class="ad-slot-live" id="adSlotStep3" style="display:none;margin-bottom:18px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'5441ae223686bfabb062c040be34504d','format':'iframe','height':50,'width':320,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/5441ae223686bfabb062c040be34504d/invoke.js"></script>
+      </div>
+
+      <button class="btn" id="actionBtn" disabled>Please wait…</button>
+    </div>
+
+    <div id="result" class="card" style="display:none;">
+      <div class="step-label"><span>Link unlocked</span></div>
+      <p style="margin-top:0;">Opening your link now… if it didn't open automatically, use the button below.</p>
+      <div class="link-box" id="linkBox"></div>
+      <a class="btn" id="openLinkBtn" target="_blank" rel="noopener">Open link</a>
+    </div>
+
+    <div class="card">
+      <div class="step-label"><span>Sponsored</span></div>
+
+      <!-- ADSTERRA — real ad creative (actual images), repeated -->
+      <div class="ad-slot-live" style="margin-bottom:14px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'39d2bd7083490f84f8e904e4cf0fb97a','format':'iframe','height':60,'width':468,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/39d2bd7083490f84f8e904e4cf0fb97a/invoke.js"></script>
+      </div>
+
+      <div class="ad-slot-live" style="margin-bottom:14px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'c749d933ad79784b0353eb15f0ceeeb0','format':'iframe','height':250,'width':300,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/c749d933ad79784b0353eb15f0ceeeb0/invoke.js"></script>
+      </div>
+
+      <!-- ADSTERRA — Native Banner -->
+      <div style="margin-bottom:14px;">
+        <script async="async" data-cfasync="false" src="https://evidentbummerhike.com/35e80c901d16d318b2eee09f47c6cd26/invoke.js"></script>
+        <div id="container-35e80c901d16d318b2eee09f47c6cd26"></div>
+      </div>
+
+      <!-- ADSTERRA — Banner 728x90 -->
+      <div class="ad-slot-live" style="margin-bottom:14px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'aa095a5ec6d36f0cb136897721dac432','format':'iframe','height':90,'width':728,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/aa095a5ec6d36f0cb136897721dac432/invoke.js"></script>
+      </div>
+
+      <!-- ADSTERRA — Banner 160x600 -->
+      <div class="ad-slot-live" style="margin-bottom:14px;">
+        <script type="text/javascript">
+          atOptions = { 'key':'317aa6ca597022585cbea8b3a27fc750','format':'iframe','height':600,'width':160,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/317aa6ca597022585cbea8b3a27fc750/invoke.js"></script>
+      </div>
+
+      <!-- ADSTERRA — Banner 320x50 -->
+      <div class="ad-slot-live">
+        <script type="text/javascript">
+          atOptions = { 'key':'5441ae223686bfabb062c040be34504d','format':'iframe','height':50,'width':320,'params':{} };
+        </script>
+        <script type="text/javascript" src="https://evidentbummerhike.com/5441ae223686bfabb062c040be34504d/invoke.js"></script>
+      </div>
+
+      <!-- KADAM — extra Direct Links, rendered as clickable items at the bottom -->
+      <div id="kadamExtraLinks" style="margin-top:14px;"></div>
+    </div>
+  </main>
+
+  <!-- ADSTERRA — Social Bar -->
+  <script src="https://evidentbummerhike.com/d7/a9/10/d7a910dc4b792ceedaa14b27a1151ae7.js"></script>
+
+  <script src="site-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

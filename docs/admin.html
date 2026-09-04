@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Sinhala Jil</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo-mark">SJ</div>
+    <div class="logo-text">SINHALA JIL · ADMIN</div>
+  </div>
+
+  <main class="wrap">
+    <div id="loginCard" class="card">
+      <div class="step-label"><span>Sign in</span></div>
+      <p style="margin-top:0;">Only one Google account can access this admin panel.</p>
+      <button class="btn" id="googleLoginBtn" style="margin-top:6px;">Sign in with Google</button>
+      <div id="loginError" class="warning" style="display:none;"></div>
+    </div>
+
+    <div id="panel" style="display:none;">
+      <div class="card">
+        <div class="step-label"><span>Create a locked link</span></div>
+        <label for="newSlug">Slug</label>
+        <input id="newSlug" placeholder="e.g. abc123">
+        <label for="newUrl">Destination URL</label>
+        <input id="newUrl" placeholder="https://example.com/file.zip">
+        <label for="newTitle">Title (optional)</label>
+        <input id="newTitle" placeholder="Short label for your own reference">
+        <label for="newSubscribe">Subscribe link (optional)</label>
+        <input id="newSubscribe" placeholder="https://youtube.com/@yourchannel">
+        <button class="btn" id="createBtn" style="margin-top:16px;">Create link</button>
+      </div>
+
+      <div id="generatedCard" class="card" style="display:none;">
+        <div class="step-label"><span>Locked link ready</span></div>
+        <div class="copy-row">
+          <div class="link-box" id="generatedLink"></div>
+          <button class="btn secondary" id="copyBtn">Copy</button>
+        </div>
+        <p style="margin:0;">Share this link instead of the real destination.</p>
+      </div>
+
+      <div class="card">
+        <div class="step-label"><span>All links</span></div>
+        <table id="linksTable">
+          <thead><tr><th>Slug</th><th>Unlocks</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <button class="btn secondary" id="logoutBtn" style="margin-top:18px;">Sign out</button>
+    </div>
+  </main>
+
+  <script src="site-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

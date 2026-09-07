@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Only this Google account may create/edit/delete links.
+    // Change the email here if you use a different admin account —
+    // it must match public/admin.js's ALLOWED_ADMIN_EMAIL.
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'sciawswlt@gmail.com';
+    }
+
+    // Public metadata: title, subscribe link, slug. No real_url here.
+    match /links/{slug} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      // Anyone can bump the unlocks counter by exactly 1 (non-sensitive
+      // analytics field) without touching anything else.
+      allow update: if !('realUrl' in request.resource.data) &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['unlocks']) &&
+        request.resource.data.unlocks == resource.data.unlocks + 1;
+
+      // The actual destination URL.
+      // IMPORTANT — read this before relying on it:
+      // This rule is a best-effort deterrent, NOT real security. It's
+      // openly readable to anyone who calls it directly (e.g. via the
+      // browser console), regardless of whether they completed the ad
+      // steps. Splitting it into its own document only keeps it out of
+      // the page's *first* network request — it does not stop a
+      // deliberate visitor from finding this path in app.js and querying
+      // it early. Fully preventing that requires a server (Cloud
+      // Functions) to mediate every read, which this deployment
+      // intentionally does not use (see README).
+      match /secret/data {
+        allow read: if true;
+        allow write: if isAdmin();
+      }
+    }
+
+    // One document per visitor's attempt at a gate flow. This is where
+    // the countdown is genuinely enforced: Firestore checks request.time
+    // (its own server clock) against the timestamp stored in the previous
+    // step, so a visitor cannot advance faster than the real wait by
+    // editing client-side JavaScript — the database itself refuses the
+    // write until enough real time has passed.
+    match /sessions/{sessionId} {
+      allow read: if true;
+
+      allow create: if request.resource.data.step == 0
+                    && request.resource.data.t == request.time
+                    && request.resource.data.slug is string
+                    && exists(/databases/$(database)/documents/links/$(request.resource.data.slug));
+
+      allow update: if request.resource.data.slug == resource.data.slug
+                    && request.resource.data.step == resource.data.step + 1
+                    && request.resource.data.step <= 3
+                    && request.resource.data.t == request.time
+                    && request.time >= resource.data.t + duration.value(10, 's');
+
+      allow delete: if false;
+    }
+  }
+}
